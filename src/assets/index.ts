@@ -4,6 +4,7 @@ import first_store from "./Images/firstStore.png";
 import burger from "./Images/burger.png";
 import burger_open from "./Images/burger-open.png";
 import leg from "./Images/leg.png";
+import instagram from "./Images/instagram.png";
 
 const assets = {
   images: {
@@ -13,6 +14,7 @@ const assets = {
     founders: founders,
     first_store: first_store,
     leg: leg,
+    instagram: instagram,
   },
 };
 

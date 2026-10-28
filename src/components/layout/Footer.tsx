@@ -206,9 +206,25 @@ export default function Footer() {
                 {CONFIG.disclaimer}
               </p>
             </div>
-            <p className="mt-4 text-center text-xs font-bold uppercase tracking-[0.15em] text-white/60">
-              Designed by{" "}
-              <span className="text-brand-yellow">blazebytestudio</span>
+
+            <p className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-white/60">
+              <span>Designed by</span>
+
+              <a
+                href="https://www.instagram.com/nk_freaky/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-brand-yellow transition hover:opacity-80"
+              >
+                <Image
+                  src={assets.images.instagram}
+                  alt="Instagram"
+                  width={18}
+                  height={18}
+                  className="h-[18px] w-[18px] object-contain brightness-0 invert"
+                />
+                <span>nk_freaky</span>
+              </a>
             </p>
           </div>
         </div>
