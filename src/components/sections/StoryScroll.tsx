@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import cone from "@/assets/Images/waffle.png";
+import cone from "@/assets/Images/leg.png";
 import { chapters } from "@/data/story";
 import PopBackground from "@/components/ui/PopBackground";
 
@@ -60,6 +60,22 @@ export default function StoryScroll() {
             { scale: 0, rotate: -90 },
             { scale: 1, rotate: 0, duration: 0.9, ease: "back.out(2)" },
             t + 0.5,
+          );
+        }
+
+        if (el.querySelector(`${sel} .point`)) {
+          tl.fromTo(
+            `${sel} .point`,
+            { x: 80, opacity: 0, rotate: 4 },
+            {
+              x: 0,
+              opacity: 1,
+              rotate: 0,
+              stagger: 0.25,
+              duration: 0.8,
+              ease: "back.out(1.6)",
+            },
+            t + 0.2,
           );
         }
 
@@ -120,11 +136,12 @@ export default function StoryScroll() {
       {chapters.map((c, i) => {
         const flip = i % 2 === 1;
         const tall = c.aspect === "tall";
+        const hasRight = Boolean(c.image || c.points);
 
         return (
           <div
             key={i}
-            className={`chapter chapter-${i} absolute inset-0 grid items-center gap-10 px-8 pb-28 pt-36 md:grid-cols-2 md:px-20`}
+            className={`chapter chapter-${i} absolute inset-0 grid items-center gap-10 px-8 pb-28 pt-32 md:grid-cols-2 md:px-20`}
           >
             <span
               className="bignum pointer-events-none absolute top-24 select-none font-black leading-none text-transparent"
@@ -139,12 +156,16 @@ export default function StoryScroll() {
             </span>
 
             {/* TEXT */}
-            <div className={`relative z-10 ${flip ? "md:order-2" : ""}`}>
+            <div
+              className={`relative z-10 ${flip ? "md:order-2" : ""} ${
+                hasRight ? "" : "md:col-span-2 md:max-w-3xl"
+              }`}
+            >
               <p className="reveal mb-4 inline-block -rotate-2 rounded-full bg-ink px-5 py-1.5 text-xs font-extrabold uppercase tracking-[0.25em] text-brand-yellow">
                 {c.tag}
               </p>
 
-              <h2 className="reveal text-4xl font-black uppercase leading-[1.02] text-ink md:text-6xl">
+              <h2 className="reveal text-3xl font-black uppercase leading-[1.05] text-ink md:text-5xl">
                 {c.title}
               </h2>
 
@@ -161,9 +182,15 @@ export default function StoryScroll() {
                 />
               </svg>
 
-              <p className="reveal max-w-md text-lg font-semibold text-ink/80">
+              <p className="reveal max-w-lg text-base font-semibold text-ink/80 md:text-lg">
                 {c.text}
               </p>
+
+              {c.text2 && (
+                <p className="reveal mt-3 max-w-lg text-sm font-semibold text-ink/65 md:text-base">
+                  {c.text2}
+                </p>
+              )}
 
               {c.stats && (
                 <div className="reveal mt-10 flex flex-wrap gap-5">
@@ -211,7 +238,7 @@ export default function StoryScroll() {
                         : "(min-width:768px) 42rem, 90vw"
                     }
                     className={`object-cover ${
-                      tall ? "object-center" : "object-top"
+                      tall ? "object-center" : "object-center"
                     }`}
                   />
                 </div>
@@ -225,6 +252,34 @@ export default function StoryScroll() {
                     0{i + 1}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* POINT CARDS (mission / vision / pillars) */}
+            {c.points && (
+              <div
+                className={`relative z-10 mx-auto flex w-full max-w-xl flex-col gap-4 ${
+                  flip ? "md:order-1" : ""
+                }`}
+              >
+                {c.points.map((p, k) => (
+                  <div
+                    key={p.title}
+                    className={`point border-[3px] border-ink bg-white px-5 py-4 shadow-[6px_6px_0_var(--ink)] ${
+                      k % 2 ? "rotate-1" : "-rotate-1"
+                    }`}
+                  >
+                    <span className="inline-block bg-brand-red px-2.5 py-0.5 text-[0.65rem] font-black uppercase tracking-[0.2em] text-brand-yellow">
+                      {p.label}
+                    </span>
+                    <h3 className="mt-2 text-lg font-black uppercase leading-tight text-ink md:text-xl">
+                      {p.title}
+                    </h3>
+                    <p className="mt-1 text-sm font-semibold leading-snug text-ink/75">
+                      {p.text}
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -250,7 +305,7 @@ export default function StoryScroll() {
             <Image
               src={cone}
               alt=""
-              sizes="56px"
+              sizes="90px"
               className="h-auto w-full drop-shadow-[0_4px_0_rgba(26,10,8,0.6)]"
             />
           </div>

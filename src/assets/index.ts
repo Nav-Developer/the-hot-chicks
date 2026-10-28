@@ -1,16 +1,18 @@
 import logo from "./Images/logo.webp";
-import waffle from "./Images/waffle.png";
-import waffle_out from "./Images/waffle_out.png";
 import founders from "./Images/founders.png";
 import first_store from "./Images/firstStore.png";
+import burger from "./Images/burger.png";
+import burger_open from "./Images/burger-open.png";
+import leg from "./Images/leg.png";
 
 const assets = {
   images: {
     logo: logo,
-    waffle: waffle,
-    waffle_out: waffle_out,
+    burger: burger,
+    burger_open: burger_open,
     founders: founders,
     first_store: first_store,
+    leg: leg,
   },
 };
 

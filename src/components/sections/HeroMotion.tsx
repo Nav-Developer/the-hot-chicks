@@ -14,23 +14,41 @@ import {
 import assets from "@/assets";
 import PopBackground from "@/components/ui/PopBackground";
 
-const WORDS = ["crunch", "drizzle", "party", "stack"];
+const WORDS = ["crunch", "spice", "stack", "glaze"];
 
-const BITS = [
-  { x: "8%", y: "18%", size: 100, rot: -15, depth: 40, delay: 0 },
-  { x: "42%", y: "8%", size: 120, rot: 20, depth: 70, delay: 0.6 },
-  { x: "88%", y: "22%", size: 110, rot: 12, depth: 30, delay: 0.3 },
-  { x: "43%", y: "50%", size: 110, rot: 12, depth: 30, delay: 0.3 },
-  { x: "6%", y: "70%", size: 90, rot: 25, depth: 60, delay: 0.9 },
-  { x: "50%", y: "78%", size: 130, rot: -30, depth: 80, delay: 0.2 },
-  { x: "92%", y: "72%", size: 80, rot: -10, depth: 50, delay: 0.5 },
+const MENU_CHIPS = [
+  "Fried Chicken",
+  "Burgers",
+  "Wings",
+  "Rolls & Wraps",
+  "Loaded Fries",
 ];
 
-function WaffleImg({
+const TICKER = [
+  "Fried Chicken",
+  "Tower Burgers",
+  "Spicy Wings",
+  "Rolls & Wraps",
+  "Loaded Fries",
+  "Mint Lime Mojito",
+  "The Hot Chick",
+];
+
+const BITS = [
+  { x: "8%", y: "18%", size: 260, rot: -15, depth: 40, delay: 0 },
+  { x: "42%", y: "8%", size: 280, rot: 20, depth: 70, delay: 0.6 },
+  { x: "88%", y: "22%", size: 290, rot: 12, depth: 30, delay: 0.3 },
+  { x: "43%", y: "50%", size: 210, rot: 12, depth: 30, delay: 0.3 },
+  { x: "6%", y: "70%", size: 200, rot: 25, depth: 60, delay: 0.9 },
+  { x: "50%", y: "78%", size: 190, rot: -30, depth: 80, delay: 0.2 },
+  { x: "92%", y: "72%", size: 180, rot: -10, depth: 50, delay: 0.5 },
+];
+
+function FoodImg({
   src,
   size,
 }: {
-  src: typeof assets.images.waffle;
+  src: typeof assets.images.burger;
   size: number;
 }) {
   return (
@@ -112,8 +130,8 @@ function FloatingBit({
                 transition: { duration: 0.18, ease: "easeIn" },
               }}
             >
-              <WaffleImg
-                src={clicked ? assets.images.waffle_out : assets.images.waffle}
+              <FoodImg
+                src={clicked ? assets.images.burger_open : assets.images.burger}
                 size={b.size}
               />
             </motion.div>
@@ -188,7 +206,7 @@ export default function HeroMotion() {
                 animate={{ opacity: 1, y: 0 }}
                 className="inline-block -rotate-2 rounded-full bg-ink px-5 py-1.5 text-xs font-extrabold uppercase tracking-[0.25em] text-brand-yellow"
               >
-                Fresh off the iron
+                Too hot to handle
               </motion.span>
 
               <h1 className="mt-6 text-5xl font-black uppercase text-white [text-shadow:4px_4px_0_var(--ink)] md:text-6xl lg:text-7xl">
@@ -232,8 +250,27 @@ export default function HeroMotion() {
                 transition={{ delay: 0.9 }}
                 className="mt-6 max-w-md text-lg font-semibold text-white"
               >
-                Waffles, shakes and sweet chaos. Come hungry, leave sticky.
+                Hot &amp; crispy fried chicken, tower burgers, spicy wings and
+                loaded fries. Fresh, fiery and made to crave.
               </motion.p>
+
+              {/* MENU CHIPS */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+                className="mt-5 flex max-w-lg flex-wrap gap-2"
+              >
+                {MENU_CHIPS.map((c) => (
+                  <Link
+                    key={c}
+                    href="/menu"
+                    className="border-[3px] border-ink bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-ink shadow-[3px_3px_0_var(--ink)] transition hover:-translate-y-0.5 hover:bg-brand-yellow"
+                  >
+                    {c}
+                  </Link>
+                ))}
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -245,7 +282,7 @@ export default function HeroMotion() {
                   href="/menu"
                   className="border-[3px] border-ink bg-brand-yellow px-8 py-3 font-black uppercase tracking-wider text-ink shadow-[5px_5px_0_var(--ink)] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_var(--ink)]"
                 >
-                  View Menu
+                  Check Out Menu →
                 </Link>
                 <Link
                   href="/contact"
@@ -291,7 +328,7 @@ export default function HeroMotion() {
                 <div className="absolute inset-0 overflow-hidden rounded-full border-[6px] border-ink bg-white shadow-[12px_12px_0_var(--ink)]">
                   <Image
                     src={assets.images.logo}
-                    alt="The Hot Chicks"
+                    alt="The Hot Chick"
                     fill
                     priority
                     className="object-contain p-4"
@@ -331,12 +368,13 @@ export default function HeroMotion() {
             animate={{ x: ["0%", "-30%"] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
-            {Array.from({ length: 12 }).map((_, k) => (
+            {Array.from({ length: 6 }).map((_, k) => (
               <span key={k} className="mx-6">
-                Waffles <span className="text-brand-red">✦</span> Shakes{" "}
-                <span className="text-brand-red">✦</span> Brownies{" "}
-                <span className="text-brand-red">✦</span> The Hot Chicks{" "}
-                <span className="text-brand-red">✦</span>
+                {TICKER.map((t) => (
+                  <span key={t}>
+                    {t} <span className="text-brand-red">✦</span>{" "}
+                  </span>
+                ))}
               </span>
             ))}
           </motion.div>
