@@ -12,6 +12,7 @@ import {
   MotionValue,
 } from "framer-motion";
 import assets from "@/assets";
+import PopBackground from "@/components/ui/PopBackground";
 
 const WORDS = ["crunch", "drizzle", "party", "stack"];
 
@@ -25,37 +26,6 @@ const BITS = [
   { x: "92%", y: "72%", size: 80, rot: -10, depth: 50, delay: 0.5 },
 ];
 
-// function WaffleBit({ size, rot }: { size: number; rot: number }) {
-//   return (
-//     <Image
-//       src={assets.images.waffle}
-//       width={size}
-//       height={size}
-//       alt=""
-//       style={{
-//         transform: `rotate(${rot}deg)`,
-//         objectFit: "contain",
-//         mixBlendMode: "multiply",
-//       }}
-//     />
-//   );
-// }
-
-// function WaffleOutBit({ size, rot }: { size: number; rot: number }) {
-//   return (
-//     <Image
-//       src={assets.images.waffle_out}
-//       width={size}
-//       height={size}
-//       alt=""
-//       style={{
-//         transform: `rotate(${rot}deg)`,
-//         objectFit: "contain",
-//         mixBlendMode: "multiply",
-//       }}
-//     />
-//   );
-// }
 function WaffleImg({
   src,
   size,
@@ -88,8 +58,6 @@ function FloatingBit({
   const x = useTransform(mx, [-0.5, 0.5], [-b.depth, b.depth]);
   const y = useTransform(my, [-0.5, 0.5], [-b.depth, b.depth]);
   const [clicked, setClicked] = useState(false);
-
-  const fade = { duration: 0.6, ease: "easeInOut" as const };
 
   return (
     <motion.div
@@ -124,21 +92,6 @@ function FloatingBit({
             perspective: 600,
           }}
         >
-          {/* <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={clicked ? "out" : "in"}
-              style={{ position: "absolute", inset: 0 }}
-              initial={{ rotateY: 90, opacity: 0 }}
-              animate={{ rotateY: 0, opacity: 1 }}
-              exit={{ rotateY: -90, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <WaffleImg
-                src={clicked ? assets.images.waffle_out : assets.images.waffle}
-                size={b.size}
-              />
-            </motion.div>
-          </AnimatePresence> */}
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={clicked ? "out" : "in"}
@@ -191,7 +144,7 @@ function Sparkle({
     >
       <path
         d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"
-        fill="#f2c14e"
+        className="fill-brand-yellow"
       />
     </motion.svg>
   );
@@ -213,165 +166,177 @@ export default function HeroMotion() {
 
   return (
     <>
-      <section
+      <div
         onMouseMove={(e) => {
           mx.set(e.clientX / window.innerWidth - 0.5);
           my.set(e.clientY / window.innerHeight - 0.5);
         }}
-        className="relative min-h-screen overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(circle at 70% 45%, #7a2230 0%, #3a0d12 55%, #1a0508 100%)",
-        }}
       >
-        {BITS.map((b, idx) => (
-          <FloatingBit key={idx} b={b} mx={smx} my={smy} />
-        ))}
-        <Sparkle top="20%" left="55%" delay={0} />
-        <Sparkle top="68%" left="46%" delay={0.8} />
-        <Sparkle top="30%" left="92%" delay={1.5} />
+        <PopBackground variant="red" className="min-h-screen">
+          {BITS.map((b, idx) => (
+            <FloatingBit key={idx} b={b} mx={smx} my={smy} />
+          ))}
+          <Sparkle top="20%" left="55%" delay={0} />
+          <Sparkle top="68%" left="46%" delay={0.8} />
+          <Sparkle top="30%" left="92%" delay={1.5} />
 
-        <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-6 pb-40 pt-28 md:grid-cols-2">
-          {/* TEXT */}
-          <div>
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-block rounded-full bg-[#f2c14e] px-4 py-1 text-xs font-black uppercase tracking-widest text-[#3a0d12]"
-            >
-              Fresh off the iron
-            </motion.span>
+          <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-6 pb-40 pt-28 md:grid-cols-2">
+            {/* TEXT */}
+            <div>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-block -rotate-2 rounded-full bg-ink px-5 py-1.5 text-xs font-extrabold uppercase tracking-[0.25em] text-brand-yellow"
+              >
+                Fresh off the iron
+              </motion.span>
 
-            <h1 className="mt-6 text-5xl font-black uppercase leading-[0.95] text-white md:text-7xl">
-              {["Every", "bite", "is", "a"].map((w, k) => (
-                <motion.span
-                  key={w}
-                  className="mr-4 inline-block"
-                  initial={{ opacity: 0, y: 60, rotate: 6 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{
-                    delay: 0.15 * k,
-                    type: "spring",
-                    stiffness: 120,
-                  }}
+              <h1 className="mt-6 text-5xl font-black uppercase text-white [text-shadow:4px_4px_0_var(--ink)] md:text-6xl lg:text-7xl">
+                <div className="leading-[1.05]">
+                  {["Every", "bite", "is", "a"].map((w, k) => (
+                    <motion.span
+                      key={w}
+                      className="mr-4 inline-block"
+                      initial={{ opacity: 0, y: 60, rotate: 6 }}
+                      animate={{ opacity: 1, y: 0, rotate: 0 }}
+                      transition={{
+                        delay: 0.15 * k,
+                        type: "spring",
+                        stiffness: 120,
+                      }}
+                    >
+                      {w}
+                    </motion.span>
+                  ))}
+                </div>
+
+                <div className="relative mt-1 h-[1.25em] overflow-hidden leading-[1.2] text-brand-yellow">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={WORDS[i]}
+                      className="block"
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "-100%" }}
+                      transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
+                    >
+                      {WORDS[i]}.
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+              </h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+                className="mt-6 max-w-md text-lg font-semibold text-white"
+              >
+                Waffles, shakes and sweet chaos. Come hungry, leave sticky.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 }}
+                className="mt-8 flex flex-wrap gap-4"
+              >
+                <Link
+                  href="/menu"
+                  className="border-[3px] border-ink bg-brand-yellow px-8 py-3 font-black uppercase tracking-wider text-ink shadow-[5px_5px_0_var(--ink)] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_var(--ink)]"
                 >
-                  {w}
-                </motion.span>
-              ))}
-              <br />
-              <span className="relative inline-block h-[1.1em] overflow-hidden align-bottom text-[#e0a15f]">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={WORDS[i]}
-                    className="inline-block"
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "-100%" }}
-                    transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
-                  >
-                    {WORDS[i]}.
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </h1>
+                  View Menu
+                </Link>
+                <Link
+                  href="/contact"
+                  className="border-[3px] border-ink bg-white px-8 py-3 font-black uppercase tracking-wider text-ink shadow-[5px_5px_0_var(--ink)] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_var(--ink)]"
+                >
+                  Find Us
+                </Link>
+              </motion.div>
+            </div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-              className="mt-6 max-w-md text-lg text-white/75"
-            >
-              Waffles, shakes and sweet chaos. Come hungry, leave sticky.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 }}
-              className="mt-8 flex gap-4"
-            >
-              <Link
-                href="/menu"
-                className="rounded-full bg-[#f2c14e] px-8 py-3 font-black uppercase tracking-wider text-[#3a0d12] transition hover:-translate-y-1 hover:shadow-[0_10px_0_#b8861f]"
+            {/* LOGO MEDALLION */}
+            <div className="flex justify-center" style={{ perspective: 900 }}>
+              <motion.div
+                style={{ rotateX: tiltX, rotateY: tiltY }}
+                initial={{ scale: 0, rotate: -120 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 70,
+                  damping: 12,
+                  delay: 0.3,
+                }}
+                className="relative h-[300px] w-[300px] md:h-[420px] md:w-[420px]"
               >
-                View Menu
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-full border-2 border-white/80 px-8 py-3 font-black uppercase tracking-wider text-white transition hover:bg-white hover:text-[#3a0d12]"
-              >
-                Find Us
-              </Link>
-            </motion.div>
+                <motion.div
+                  className="absolute -inset-6 rounded-full border-[3px] border-dashed border-brand-yellow"
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 30,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <motion.div
+                  className="absolute -inset-12 rounded-full border-2 border-ink/40"
+                  animate={{ rotate: -360 }}
+                  transition={{
+                    duration: 45,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <div className="absolute inset-0 overflow-hidden rounded-full border-[6px] border-ink bg-white shadow-[12px_12px_0_var(--ink)]">
+                  <Image
+                    src={assets.images.logo}
+                    alt="The Hot Chicks"
+                    fill
+                    priority
+                    className="object-contain p-4"
+                  />
+                </div>
+              </motion.div>
+            </div>
           </div>
 
-          {/* LOGO MEDALLION */}
-          <div className="flex justify-center" style={{ perspective: 900 }}>
-            <motion.div
-              style={{ rotateX: tiltX, rotateY: tiltY }}
-              initial={{ scale: 0, rotate: -120 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 70,
-                damping: 12,
-                delay: 0.3,
+          {/* LIQUID WAVE */}
+          <svg
+            className="absolute bottom-0 left-0 z-10 w-full"
+            viewBox="0 0 1440 120"
+            preserveAspectRatio="none"
+            style={{ height: 110 }}
+          >
+            <motion.path
+              className="fill-cream"
+              animate={{
+                d: [
+                  "M0,60 C240,20 480,100 720,60 C960,20 1200,100 1440,60 L1440,120 L0,120 Z",
+                  "M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z",
+                  "M0,60 C240,20 480,100 720,60 C960,20 1200,100 1440,60 L1440,120 L0,120 Z",
+                ],
               }}
-              className="relative h-[300px] w-[300px] md:h-[420px] md:w-[420px]"
-            >
-              <motion.div
-                className="absolute -inset-6 rounded-full border-2 border-dashed border-[#e0a15f]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-              />
-              <motion.div
-                className="absolute -inset-12 rounded-full border border-[#e0a15f]/40"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-              />
-              <Image
-                src={assets.images.logo}
-                alt="The Hot Chicks"
-                fill
-                priority
-                className="rounded-full object-cover shadow-[0_0_80px_rgba(224,161,95,0.45)]"
-              />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* LIQUID WAVE */}
-        <svg
-          className="absolute bottom-0 left-0 w-full"
-          viewBox="0 0 1440 120"
-          preserveAspectRatio="none"
-          style={{ height: 110 }}
-        >
-          <motion.path
-            fill="#f6e7cf"
-            animate={{
-              d: [
-                "M0,60 C240,20 480,100 720,60 C960,20 1200,100 1440,60 L1440,120 L0,120 Z",
-                "M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z",
-                "M0,60 C240,20 480,100 720,60 C960,20 1200,100 1440,60 L1440,120 L0,120 Z",
-              ],
-            }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </svg>
-      </section>
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </svg>
+        </PopBackground>
+      </div>
 
       {/* TICKER */}
-      <div className="relative -mt-2 overflow-hidden bg-[#f6e7cf] py-6">
-        <div className="-rotate-2 bg-[#3a0d12] py-3">
+      <div className="relative -mt-2 overflow-hidden bg-cream py-6">
+        <div className="-rotate-2 border-y-4 border-ink bg-brand-yellow py-3">
           <motion.div
-            className="flex w-max whitespace-nowrap text-2xl font-black uppercase text-[#f2c14e]"
+            className="flex w-max whitespace-nowrap text-2xl font-black uppercase text-ink"
             animate={{ x: ["0%", "-30%"] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
             {Array.from({ length: 12 }).map((_, k) => (
               <span key={k} className="mx-6">
-                Waffles ✦ Shakes ✦ Brownies ✦ The Hot Chicks ✦
+                Waffles <span className="text-brand-red">✦</span> Shakes{" "}
+                <span className="text-brand-red">✦</span> Brownies{" "}
+                <span className="text-brand-red">✦</span> The Hot Chicks{" "}
+                <span className="text-brand-red">✦</span>
               </span>
             ))}
           </motion.div>

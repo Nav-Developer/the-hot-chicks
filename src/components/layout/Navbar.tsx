@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import assets from "@/assets";
 
 const LOGO_SRC = assets.images.logo;
+const INK = "#1A0A08";
 
 const links = [
   { label: "Home", href: "/" },
@@ -28,6 +29,19 @@ const links = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
+
+const reserveSx = {
+  bgcolor: "primary.main",
+  color: "#fff",
+  border: `3px solid ${INK}`,
+  boxShadow: `4px 4px 0 ${INK}`,
+  transition: "all .15s",
+  "&:hover": {
+    bgcolor: "primary.dark",
+    transform: "translate(-2px,-2px)",
+    boxShadow: `6px 6px 0 ${INK}`,
+  },
+};
 
 function Logo({ size }: { size: number }) {
   return (
@@ -38,8 +52,8 @@ function Logo({ size }: { size: number }) {
         height: size,
         borderRadius: "50%",
         overflow: "hidden",
-        border: "3px solid",
-        borderColor: "secondary.main",
+        border: `3px solid ${INK}`,
+        boxShadow: `3px 3px 0 ${INK}`,
         bgcolor: "#fff",
         flexShrink: 0,
       }}
@@ -50,11 +64,7 @@ function Logo({ size }: { size: number }) {
         fill
         priority
         sizes="80px"
-        style={{
-          objectFit: "cover",
-          transform: "scale(1)",
-          transformOrigin: "52% 30%",
-        }}
+        style={{ objectFit: "cover" }}
       />
     </Box>
   );
@@ -70,10 +80,9 @@ export default function Navbar() {
         position="fixed"
         elevation={0}
         sx={{
-          bgcolor: "primary.dark",
-          color: "#fff",
-          borderBottom: "2px solid",
-          borderColor: "secondary.main",
+          bgcolor: "secondary.main",
+          color: INK,
+          borderBottom: `4px solid ${INK}`,
         }}
       >
         <Toolbar
@@ -92,7 +101,7 @@ export default function Navbar() {
             sx={{
               display: { xs: "none", md: "flex" },
               alignItems: "center",
-              gap: 3,
+              gap: 2,
             }}
           >
             {links.map((l) => {
@@ -103,16 +112,13 @@ export default function Navbar() {
                   component={Link}
                   href={l.href}
                   disableRipple
-                  //   startIcon={<StarIcon sx={{ fontSize: "14px !important" }} />}
                   sx={{
-                    color: active ? "secondary.main" : "#fff",
+                    color: active ? "secondary.main" : INK,
+                    bgcolor: active ? INK : "transparent",
+                    borderRadius: 999,
                     fontSize: "0.8rem",
                     letterSpacing: "0.18em",
-                    "& .MuiButton-startIcon": { color: "secondary.main" },
-                    "&:hover": {
-                      bgcolor: "transparent",
-                      color: "secondary.main",
-                    },
+                    "&:hover": { bgcolor: INK, color: "secondary.main" },
                   }}
                 >
                   {l.label}
@@ -123,7 +129,7 @@ export default function Navbar() {
               component={Link}
               href="/reservation"
               variant="contained"
-              color="secondary"
+              sx={{ ml: 1, ...reserveSx }}
             >
               Reserve
             </Button>
@@ -131,10 +137,14 @@ export default function Navbar() {
 
           {/* Mobile */}
           <IconButton
-            color="inherit"
             aria-label="open menu"
             onClick={() => setOpen(true)}
-            sx={{ display: { xs: "inline-flex", md: "none" } }}
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+              color: INK,
+              border: `3px solid ${INK}`,
+              boxShadow: `3px 3px 0 ${INK}`,
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -150,8 +160,9 @@ export default function Navbar() {
             sx: {
               width: "80vw",
               maxWidth: 360,
-              bgcolor: "primary.dark",
-              color: "#fff",
+              bgcolor: "secondary.main",
+              color: INK,
+              borderLeft: `4px solid ${INK}`,
               display: "flex",
               flexDirection: "column",
             },
@@ -177,12 +188,16 @@ export default function Navbar() {
           <IconButton
             aria-label="close menu"
             onClick={() => setOpen(false)}
-            sx={{ color: "#fff", bgcolor: "rgba(255,255,255,0.1)" }}
+            sx={{
+              color: INK,
+              border: `3px solid ${INK}`,
+              boxShadow: `3px 3px 0 ${INK}`,
+            }}
           >
             <CloseIcon />
           </IconButton>
         </Box>
-        <Divider sx={{ borderColor: "rgba(247,209,84,0.4)" }} />
+        <Divider sx={{ borderColor: INK, borderBottomWidth: 3 }} />
 
         <List sx={{ px: 2, py: 0 }}>
           {links.map((l) => (
@@ -198,17 +213,17 @@ export default function Navbar() {
                   slotProps={{
                     primary: {
                       sx: {
-                        fontWeight: 700,
+                        fontWeight: 800,
                         letterSpacing: "0.15em",
                         textTransform: "uppercase",
-                        fontSize: "0.85rem",
-                        color: pathname === l.href ? "secondary.main" : "#fff",
+                        fontSize: "0.9rem",
+                        color: pathname === l.href ? "primary.main" : INK,
                       },
                     },
                   }}
                 />
               </ListItemButton>
-              <Divider sx={{ borderColor: "rgba(255,255,255,0.12)" }} />
+              <Divider sx={{ borderColor: "rgba(26,10,8,0.25)" }} />
             </Box>
           ))}
         </List>
@@ -218,10 +233,10 @@ export default function Navbar() {
             component={Link}
             href="/reservation"
             variant="contained"
-            color="secondary"
             fullWidth
             size="large"
             onClick={() => setOpen(false)}
+            sx={reserveSx}
           >
             Reserve a table
           </Button>

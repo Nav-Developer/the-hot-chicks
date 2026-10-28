@@ -1,19 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  /* existing vars stay... */
+  /* logo palette */
+  --brand-red: #e4311f;
+  --brand-red-dark: #8e1510;
+  --brand-red-deep: #5a0b08;
+  --brand-yellow: #ffe53b;
+  --brand-yellow-shadow: #b8a000;
+  --ink: #1a0a08;
+  --cream: #f5e1c0;
+
+  /* old names kept so navbar etc. don't break (navbar now follows logo red) */
   --wine-950: #1f070b;
   --wine-900: #2e0d12;
   --wine-800: #4a1820;
   --wine-700: #6a1d22;
-  --wine-600: #7f2421; /* navbar maroon */
-  --gold-400: #e9c46a;
+  --wine-600: var(--brand-red-dark);
+  --gold-400: var(--brand-yellow);
   --copper: #c98b6b;
   --cream-200: #f4e8d3;
 }
 
 @theme inline {
-  /* existing... */
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-dark: var(--brand-red-dark);
+  --color-brand-red-deep: var(--brand-red-deep);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-yellow-shadow: var(--brand-yellow-shadow);
+  --color-ink: var(--ink);
+  --color-cream: var(--cream);
+
   --color-wine-950: var(--wine-950);
   --color-wine-800: var(--wine-800);
   --color-wine-600: var(--wine-600);
@@ -22,14 +38,10 @@
   --color-cream-200: var(--cream-200);
 }
 
-/* html {
-  scroll-behavior: smooth;
-} */
-
 body {
   background-color: var(--cream);
   background-image: radial-gradient(
-    rgba(217, 56, 50, 0.07) 1px,
+    rgba(228, 49, 31, 0.07) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
@@ -48,5 +60,5 @@ body {
   outline: none;
 }
 .field:focus {
-  box-shadow: 0 0 0 2px var(--gold-400);
+  box-shadow: 0 0 0 2px var(--brand-yellow);
 }

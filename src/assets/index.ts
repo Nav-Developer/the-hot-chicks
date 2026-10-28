@@ -1,4 +1,4 @@
-import logo from "./Images/logo.jpg";
+import logo from "./Images/logo.webp";
 import waffle from "./Images/waffle.png";
 import waffle_out from "./Images/waffle_out.png";
 import founders from "./Images/founders.png";
